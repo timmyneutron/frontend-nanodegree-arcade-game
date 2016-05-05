@@ -70,10 +70,12 @@ Player.prototype.render = function() {
 
 Player.prototype.randomPlayerX = function() {
     this.x = 101 * (Math.floor(Math.random() * 5));
+    this.moveToX = this.x;
 };
 
 Player.prototype.randomPlayerY = function() {
     this.y = 289 + 83 * (Math.floor(Math.random() * 2));
+    this.moveToY = this.y;
 };
 
 Player.prototype.resetPlayer = function() {
@@ -81,10 +83,39 @@ Player.prototype.resetPlayer = function() {
     this.randomPlayerY();
 };
 
+Player.prototype.handleInput = function(key) {
+    switch (key) {
+        case 'up':
+            if (this.y > 40) {
+                this.moveToY -= 83;
+            } else if (this.y === 40) {
+                this.resetPlayer();
+            }
+            break;
+        case 'down':
+            if (this.y < 372) {
+                this.moveToY += 83;
+            }
+            break;
+        case 'left':
+            if (this.x > 0) {
+                this.moveToX -= 101;
+            }
+            break;
+        case 'right':
+            if (this.x < 404) {
+                this.moveToX += 101;
+            }
+            break;
+    }
+};
+
+Player.prototype.update = function() {
+    this.x = this.moveToX;
+    this.y = this.moveToY;
+}
+
 var player = new Player();
-
-
-
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
