@@ -6,9 +6,7 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = undefined;
-    this.y = undefined;
-    this.velocity = undefined;
+    this.initEnemy();
 };
 
 // Update the enemy's position, required method for game
@@ -17,29 +15,42 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    if (this.x === undefined) {
-        this.init();
-    } else if (this.x < 707) {
-        this.x += this.velocity*dt;
+    if (this.x < 505) {
+        this.x += this.velocity * dt;
     } else {
-        this.reset();
+        this.resetEnemy();
     }
 };
 
-Enemy.prototype.init = function() {
+Enemy.prototype.randomY = function() {
+    this.y = 60 + 83 * (Math.floor(Math.random() * 3));
+};
+
+Enemy.prototype.randomV = function() {
+    this.velocity = 50 + Math.random()*100;
+};
+
+Enemy.prototype.initX = function() {
     this.x = 404 * Math.random();
-    this.y = 60 + 83 * (Math.floor(Math.random()*3));
-    this.velocity = 50 + Math.random()*100;
-}
+};
 
-Enemy.prototype.reset = function() {
-    var topRowY = 60;
-    var rowWidth = 83;
-
+Enemy.prototype.resetX = function() {
     this.x = -101;
-    this.y = topRowY + rowWidth * (Math.floor(Math.random() * 3));
-    this.velocity = 50 + Math.random()*100;
-}
+};
+
+Enemy.prototype.initEnemy = function() {
+    this.initX();
+    this.randomY();
+    this.randomV();
+};
+
+Enemy.prototype.resetEnemy = function() {
+    this.resetX();
+    this.randomY();
+    this.randomV();
+};
+
+
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
