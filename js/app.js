@@ -61,7 +61,7 @@ Enemy.prototype.render = function() {
 
 var Player = function() {
     this.resetPlayer();
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/char-princess-girl.png';
 };
 
 Player.prototype.render = function() {
@@ -116,6 +116,18 @@ Player.prototype.update = function() {
 }
 
 var player = new Player();
+
+var Rock = function() {
+    this.x = 202;
+    this.y = 123;
+    this.sprite = 'images/Rock.png';
+};
+
+Rock.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var rock = new Rock();
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
