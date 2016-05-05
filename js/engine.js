@@ -66,7 +66,8 @@ var Engine = (function(global) {
     function init() {
         reset();
         lastTime = Date.now();
-        createEnemies(8);
+        var numberOfEnemies = 7;
+        createEnemies(numberOfEnemies);
         main();
     }
 

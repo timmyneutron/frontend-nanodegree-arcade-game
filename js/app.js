@@ -27,7 +27,7 @@ Enemy.prototype.update = function(dt) {
 };
 
 Enemy.prototype.init = function() {
-    this.x = -101 - 505 * Math.random();
+    this.x = 404 * Math.random();
     this.y = 60 + 83 * (Math.floor(Math.random()*3));
     this.velocity = 50 + Math.random()*100;
 }
