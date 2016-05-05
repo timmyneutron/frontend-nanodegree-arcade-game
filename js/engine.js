@@ -90,7 +90,15 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+    }
+
+    function checkCollisions() {
+        allEnemies.forEach(function(enemy) {
+            if (enemy.y - player.y === 20 && Math.abs(enemy.x - player.x) < 69) {
+                player.resetPlayer();
+            }
+        });
     }
 
     /* This is called by the update function and loops through all of the
