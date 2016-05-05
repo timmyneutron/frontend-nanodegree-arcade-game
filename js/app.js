@@ -22,35 +22,33 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-Enemy.prototype.randomY = function() {
+Enemy.prototype.randomEnemyY = function() {
     this.y = 60 + 83 * (Math.floor(Math.random() * 3));
 };
 
-Enemy.prototype.randomV = function() {
+Enemy.prototype.randomEnemyV = function() {
     this.velocity = 50 + Math.random()*100;
 };
 
-Enemy.prototype.initX = function() {
+Enemy.prototype.initEnemyX = function() {
     this.x = 404 * Math.random();
 };
 
-Enemy.prototype.resetX = function() {
+Enemy.prototype.resetEnemyX = function() {
     this.x = -101;
 };
 
 Enemy.prototype.initEnemy = function() {
-    this.initX();
-    this.randomY();
-    this.randomV();
+    this.initEnemyX();
+    this.randomEnemyY();
+    this.randomEnemyV();
 };
 
 Enemy.prototype.resetEnemy = function() {
-    this.resetX();
-    this.randomY();
-    this.randomV();
+    this.resetEnemyX();
+    this.randomEnemyY();
+    this.randomEnemyV();
 };
-
-
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -60,6 +58,32 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+
+var Player = function() {
+    this.resetPlayer();
+    this.sprite = 'images/char-boy.png';
+};
+
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.randomPlayerX = function() {
+    this.x = 101 * (Math.floor(Math.random() * 5));
+};
+
+Player.prototype.randomPlayerY = function() {
+    this.y = 289 + 83 * (Math.floor(Math.random() * 2));
+};
+
+Player.prototype.resetPlayer = function() {
+    this.randomPlayerX();
+    this.randomPlayerY();
+};
+
+var player = new Player();
+
+
 
 
 // Now instantiate your objects.
@@ -78,5 +102,5 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
-    // player.handleInput(allowedKeys[e.keyCode]);
+    player.handleInput(allowedKeys[e.keyCode]);
 });
