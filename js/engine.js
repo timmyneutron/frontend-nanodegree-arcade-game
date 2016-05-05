@@ -66,9 +66,18 @@ var Engine = (function(global) {
     function init() {
         reset();
         lastTime = Date.now();
+        createEnemies(8);
         main();
     }
 
+    function createEnemies(numberOfEnemies) {
+        allEnemies = [];
+
+        for (var i=0; i<numberOfEnemies; i++) {
+            var enemy = new Enemy();
+            allEnemies.push(enemy);
+        };
+    }
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
      * you implement your collision detection (when two entities occupy the
@@ -94,7 +103,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        // player.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -151,7 +160,7 @@ var Engine = (function(global) {
             enemy.render();
         });
 
-        player.render();
+        // player.render();
     }
 
     /* This function does nothing but it could have been a good place to

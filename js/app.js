@@ -6,6 +6,9 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.x = undefined;
+    this.y = undefined;
+    this.velocity = undefined;
 };
 
 // Update the enemy's position, required method for game
@@ -14,7 +17,29 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    if (this.x === undefined) {
+        this.init();
+    } else if (this.x < 707) {
+        this.x += this.velocity*dt;
+    } else {
+        this.reset();
+    }
 };
+
+Enemy.prototype.init = function() {
+    this.x = -101 - 505 * Math.random();
+    this.y = 60 + 83 * (Math.floor(Math.random()*3));
+    this.velocity = 50 + Math.random()*100;
+}
+
+Enemy.prototype.reset = function() {
+    var topRowY = 60;
+    var rowWidth = 83;
+
+    this.x = -101;
+    this.y = topRowY + rowWidth * (Math.floor(Math.random() * 3));
+    this.velocity = 50 + Math.random()*100;
+}
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -42,5 +67,5 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
-    player.handleInput(allowedKeys[e.keyCode]);
+    // player.handleInput(allowedKeys[e.keyCode]);
 });
