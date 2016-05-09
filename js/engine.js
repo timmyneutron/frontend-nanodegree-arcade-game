@@ -155,6 +155,7 @@ var Engine = (function(global) {
         }
 
         renderEntities();
+        renderScore();
     }
 
     /* This function is called by the render function and is called on each game
@@ -170,7 +171,18 @@ var Engine = (function(global) {
         });
 
         player.render();
-        rock.render();
+        // rock.render();
+    }
+
+    function renderScore() {
+        var score = 50;
+        var scoreString = "Score: " + score.toString();
+        ctx.font = '30pt Impact';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 3;
+        ctx.fillStyle = 'white';
+        ctx.fillText(scoreString, 30, 110);
+        ctx.strokeText(scoreString, 30, 110);
     }
 
     /* This function does nothing but it could have been a good place to

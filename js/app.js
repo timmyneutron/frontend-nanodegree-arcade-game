@@ -117,17 +117,20 @@ Player.prototype.update = function() {
 
 var player = new Player();
 
-var Rock = function() {
-    this.x = 202;
-    this.y = 123;
-    this.sprite = 'images/Rock.png';
-};
+var score = 100;
 
-Rock.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
 
-var rock = new Rock();
+// var Rock = function() {
+//     this.x = 202;
+//     this.y = 123;
+//     this.sprite = 'images/Rock.png';
+// };
+
+// Rock.prototype.render = function() {
+//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+// };
+
+// var rock = new Rock();
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
