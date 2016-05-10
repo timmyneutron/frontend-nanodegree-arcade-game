@@ -24,9 +24,11 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+        // score = 0;
 
     canvas.width = 505;
     canvas.height = 606;
+
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -66,7 +68,7 @@ var Engine = (function(global) {
     function init() {
         reset();
         lastTime = Date.now();
-        var numberOfEnemies = 7;
+        var numberOfEnemies = 6;
         createEnemies(numberOfEnemies);
         main();
     }
@@ -91,12 +93,18 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        // checkWater();
     }
 
     function checkCollisions() {
         allEnemies.forEach(function(enemy) {
-            if (enemy.y - player.y === 20 && Math.abs(enemy.x - player.x) < 69) {
-                player.resetPlayer();
+            if (enemy.y - player1.y === 20 && Math.abs(enemy.x - player1.x) < 69) {
+                player1.resetPlayer();
+                player1.score -= 1;
+            }
+            if (enemy.y - player2.y === 20 && Math.abs(enemy.x - player2.x) < 69) {
+                player2.resetPlayer();
+                player2.score -= 1;
             }
         });
     }
@@ -112,7 +120,8 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        player1.update();
+        player2.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -154,8 +163,16 @@ var Engine = (function(global) {
             }
         }
 
-        renderEntities();
-        renderScore();
+        var winningScore = 10;
+
+        if (player1.score === winningScore) {
+            gameOver(1);
+        } else if (player2.score === winningScore) {
+            gameOver(2);
+        } else {
+            renderEntities();
+            renderScore();
+        }
     }
 
     /* This function is called by the render function and is called on each game
@@ -170,19 +187,32 @@ var Engine = (function(global) {
             enemy.render();
         });
 
-        player.render();
+        player1.render();
+        player2.render();
         // rock.render();
     }
 
     function renderScore() {
-        var score = 50;
-        var scoreString = "Score: " + score.toString();
+        var scoreString1 = "Player 1: " + player1.score.toString();
+        var scoreString2 = "Player 2: " + player2.score.toString();
         ctx.font = '30pt Impact';
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 3;
         ctx.fillStyle = 'white';
-        ctx.fillText(scoreString, 30, 110);
-        ctx.strokeText(scoreString, 30, 110);
+        ctx.textAlign = 'left';
+        ctx.fillText(scoreString1, 30, 110);
+        ctx.strokeText(scoreString1, 30, 110);
+        ctx.textAlign = 'right';
+        ctx.fillText(scoreString2, canvas.width - 30, 110);
+        ctx.strokeText(scoreString2, canvas.width - 30, 110);
+    }
+
+    function gameOver(winner) {
+        ctx.font = '50pt Impact';
+        ctx.textAlign = 'center';
+        var gameOverText = 'Player ' + winner + ' wins!';
+        ctx.fillText(gameOverText, canvas.width / 2, 285);
+        ctx.strokeText(gameOverText, canvas.width / 2, 285);
     }
 
     /* This function does nothing but it could have been a good place to
@@ -203,9 +233,11 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/char-princess-girl.png',
-        'images/Rock.png'
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-princess-girl.png'
     ]);
+
     Resources.onReady(init);
 
     /* Assign the canvas' context object to the global variable (the window

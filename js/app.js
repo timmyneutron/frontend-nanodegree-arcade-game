@@ -6,7 +6,6 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.initEnemy();
 };
 
 // Update the enemy's position, required method for game
@@ -61,7 +60,8 @@ Enemy.prototype.render = function() {
 
 var Player = function() {
     this.resetPlayer();
-    this.sprite = 'images/char-princess-girl.png';
+    // this.sprite = 'images/char-princess-girl.png';
+    this.score = 0;
 };
 
 Player.prototype.render = function() {
@@ -83,13 +83,55 @@ Player.prototype.resetPlayer = function() {
     this.randomPlayerY();
 };
 
-Player.prototype.handleInput = function(key) {
+Player.prototype.update = function() {
+    this.x = this.moveToX;
+    this.y = this.moveToY;
+}
+
+var player1 = new Player();
+
+player1.sprite = 'images/char-cat-girl.png';
+
+player1.handleInput = function(key) {
+    switch (key) {
+        case 'w':
+            if (this.y === 40) {
+                this.resetPlayer();
+                this.score += 1;
+            } else {
+                this.moveToY -= 83;
+            }
+            break;
+        case 's':
+            if (this.y < 372) {
+                this.moveToY += 83;
+            }
+            break;
+        case 'a':
+            if (this.x > 0) {
+                this.moveToX -= 101;
+            }
+            break;
+        case 'd':
+            if (this.x < 404) {
+                this.moveToX += 101;
+            }
+            break;
+    }
+};
+
+var player2 = new Player();
+
+player2.sprite = 'images/char-boy.png';
+
+player2.handleInput = function(key) {
     switch (key) {
         case 'up':
-            if (this.y > 40) {
-                this.moveToY -= 83;
-            } else if (this.y === 40) {
+            if (this.y === 40) {
                 this.resetPlayer();
+                this.score += 1;
+            } else {
+                this.moveToY -= 83;
             }
             break;
         case 'down':
@@ -109,16 +151,6 @@ Player.prototype.handleInput = function(key) {
             break;
     }
 };
-
-Player.prototype.update = function() {
-    this.x = this.moveToX;
-    this.y = this.moveToY;
-}
-
-var player = new Player();
-
-var score = 100;
-
 
 // var Rock = function() {
 //     this.x = 202;
@@ -143,8 +175,14 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        65: 'a',
+        87: 'w',
+        83: 's',
+        68: 'd'
     };
 
-    player.handleInput(allowedKeys[e.keyCode]);
+    player1.handleInput(allowedKeys[e.keyCode]);
+    player2.handleInput(allowedKeys[e.keyCode]);
+
 });
