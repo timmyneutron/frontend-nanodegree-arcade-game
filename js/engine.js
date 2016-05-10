@@ -47,6 +47,7 @@ var Engine = (function(global) {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
+
         update(dt);
         render();
 
@@ -93,7 +94,6 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
-        // checkWater();
     }
 
     function checkCollisions() {
@@ -122,6 +122,7 @@ var Engine = (function(global) {
         });
         player1.update();
         player2.update();
+        rock.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -189,7 +190,7 @@ var Engine = (function(global) {
 
         player1.render();
         player2.render();
-        // rock.render();
+        rock.render();
     }
 
     function renderScore() {
@@ -235,7 +236,8 @@ var Engine = (function(global) {
         'images/char-boy.png',
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
-        'images/char-princess-girl.png'
+        'images/char-princess-girl.png',
+        'images/Rock.png'
     ]);
 
     Resources.onReady(init);

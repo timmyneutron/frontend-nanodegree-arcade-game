@@ -152,17 +152,37 @@ player2.handleInput = function(key) {
     }
 };
 
-// var Rock = function() {
-//     this.x = 202;
-//     this.y = 123;
-//     this.sprite = 'images/Rock.png';
-// };
+var Rock = function() {
+    this.sprite = 'images/Rock.png';
+    this.moveRockOffScreen();
+};
 
-// Rock.prototype.render = function() {
-//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-// };
+Rock.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
-// var rock = new Rock();
+Rock.prototype.update = function() {
+    var randomNumber = Math.random();
+    if (randomNumber > .3 && randomNumber < .31) {
+        if (this.x === -100) {
+            this.randomRockPosition();
+        } else {
+            this.moveRockOffScreen();
+        }
+    }
+}
+
+Rock.prototype.moveRockOffScreen = function() {
+    this.x = -100;
+    this.y = -100;
+}
+
+Rock.prototype.randomRockPosition = function() {
+    this.x = 404 * Math.random();
+    this.y = 60 + 83 * (Math.floor(Math.random() * 3));
+};
+
+var rock = new Rock();
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
