@@ -135,22 +135,22 @@ player2.handleInput = function(key) {
     }
 };
 
-var Rock = function() {
-    this.sprite = 'images/Rock.png';
-    this.moveRockOffScreen();
+var Item = function(sprite) {
+    this.sprite = sprite;
+    this.moveItemOffScreen();
     this.timer = 0;
-};
+}
 
-Rock.prototype.render = function() {
+Item.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Rock.prototype.update = function() {
+Item.prototype.update = function() {
     if (this.timer > 300) {
         if (this.x === -100) {
-            this.randomRockPosition();
+            this.randomItemPosition();
         } else {
-            this.moveRockOffScreen();
+            this.moveItemOffScreen();
         }
         this.timer = 0;
     } else {
@@ -158,52 +158,31 @@ Rock.prototype.update = function() {
     }
 }
 
-Rock.prototype.moveRockOffScreen = function() {
+Item.prototype.moveItemOffScreen = function() {
     this.x = -100;
     this.y = -100;
 }
 
-Rock.prototype.randomRockPosition = function() {
+Item.prototype.randomItemPosition = function() {
     this.x = 101 * (Math.floor(Math.random() * 5));
     this.y = 40 + 83 * (Math.floor(Math.random() * 3));
 };
-
-var rock = new Rock();
 
 var Gem = function() {
-    this.sprite = 'images/GemBlue.png';
-    this.moveGemOffScreen();
-    this.timer = 0;
+    Item.call(this, 'images/GemBlue.png');
 }
-
-Gem.prototype.moveGemOffScreen = function() {
-    this.x = -100;
-    this.y = -100;
-}
-
-Gem.prototype.randomGemPosition = function() {
-    this.x = 101 * (Math.floor(Math.random() * 5));
-    this.y = 40 + 83 * (Math.floor(Math.random() * 3));
-}
-
-Gem.prototype.update = function() {
-    if (this.timer > 300) {
-        if (this.x === -100) {
-            this.randomGemPosition();
-        } else {
-            this.moveGemOffScreen();
-        }
-        this.timer = 0;
-    } else {
-        this.timer += 1;
-    }
-}
-
-Gem.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+Gem.prototype = Object.create(Item.prototype);
+Gem.prototype.constructor = Gem;
 
 var blueGem = new Gem();
+
+var Rock = function() {
+    Item.call(this, 'images/Rock.png');
+}
+Rock.prototype = Object.create(Item.prototype);
+Rock.prototype.constructor = Rock;
+
+var rock = new Rock();
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
