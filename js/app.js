@@ -83,6 +83,11 @@ Player.prototype.resetPlayer = function() {
     this.randomPlayerY();
 };
 
+Player.prototype.stayPut = function() {
+    this.moveToX = this.x;
+    this.moveToY = this.y;
+}
+
 Player.prototype.update = function() {
     this.x = this.moveToX;
     this.y = this.moveToY;
@@ -95,27 +100,16 @@ player1.sprite = 'images/char-cat-girl.png';
 player1.handleInput = function(key) {
     switch (key) {
         case 'w':
-            if (this.y === 40) {
-                this.resetPlayer();
-                this.score += 1;
-            } else {
-                this.moveToY -= 83;
-            }
+            this.moveToY -= 83;
             break;
         case 's':
-            if (this.y < 372) {
-                this.moveToY += 83;
-            }
+            this.moveToY += 83;
             break;
         case 'a':
-            if (this.x > 0) {
-                this.moveToX -= 101;
-            }
+            this.moveToX -= 101;
             break;
         case 'd':
-            if (this.x < 404) {
-                this.moveToX += 101;
-            }
+            this.moveToX += 101;
             break;
     }
 };
@@ -127,27 +121,16 @@ player2.sprite = 'images/char-boy.png';
 player2.handleInput = function(key) {
     switch (key) {
         case 'up':
-            if (this.y === 40) {
-                this.resetPlayer();
-                this.score += 1;
-            } else {
-                this.moveToY -= 83;
-            }
+            this.moveToY -= 83;
             break;
         case 'down':
-            if (this.y < 372) {
-                this.moveToY += 83;
-            }
+            this.moveToY += 83;
             break;
         case 'left':
-            if (this.x > 0) {
-                this.moveToX -= 101;
-            }
+            this.moveToX -= 101;
             break;
         case 'right':
-            if (this.x < 404) {
-                this.moveToX += 101;
-            }
+            this.moveToX += 101;
             break;
     }
 };
@@ -155,6 +138,7 @@ player2.handleInput = function(key) {
 var Rock = function() {
     this.sprite = 'images/Rock.png';
     this.moveRockOffScreen();
+    this.timer = 0;
 };
 
 Rock.prototype.render = function() {
@@ -162,13 +146,15 @@ Rock.prototype.render = function() {
 };
 
 Rock.prototype.update = function() {
-    var randomNumber = Math.random();
-    if (randomNumber > .3 && randomNumber < .31) {
+    if (this.timer > 300) {
         if (this.x === -100) {
             this.randomRockPosition();
         } else {
             this.moveRockOffScreen();
         }
+        this.timer = 0;
+    } else {
+        this.timer += 1;
     }
 }
 
@@ -178,11 +164,46 @@ Rock.prototype.moveRockOffScreen = function() {
 }
 
 Rock.prototype.randomRockPosition = function() {
-    this.x = 404 * Math.random();
-    this.y = 60 + 83 * (Math.floor(Math.random() * 3));
+    this.x = 101 * (Math.floor(Math.random() * 5));
+    this.y = 40 + 83 * (Math.floor(Math.random() * 3));
 };
 
 var rock = new Rock();
+
+var Gem = function() {
+    this.sprite = 'images/GemBlue.png';
+    this.moveGemOffScreen();
+    this.timer = 0;
+}
+
+Gem.prototype.moveGemOffScreen = function() {
+    this.x = -100;
+    this.y = -100;
+}
+
+Gem.prototype.randomGemPosition = function() {
+    this.x = 101 * (Math.floor(Math.random() * 5));
+    this.y = 40 + 83 * (Math.floor(Math.random() * 3));
+}
+
+Gem.prototype.update = function() {
+    if (this.timer > 300) {
+        if (this.x === -100) {
+            this.randomGemPosition();
+        } else {
+            this.moveGemOffScreen();
+        }
+        this.timer = 0;
+    } else {
+        this.timer += 1;
+    }
+}
+
+Gem.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var blueGem = new Gem();
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies

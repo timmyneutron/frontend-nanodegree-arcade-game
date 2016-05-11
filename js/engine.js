@@ -92,22 +92,35 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        updateEntities(dt);
         checkCollisions();
+        updateEntities(dt);
     }
 
+    var playerArray = [player1, player2];
+
     function checkCollisions() {
-        allEnemies.forEach(function(enemy) {
-            if (enemy.y - player1.y === 20 && Math.abs(enemy.x - player1.x) < 69) {
-                player1.resetPlayer();
-                player1.score -= 1;
+        playerArray.forEach(function(player) {
+            if (player.moveToX < 0) {
+                player.stayPut();
+            } else if (player.moveToX > 404) {
+                player.stayPut();
+            } else if (player.moveToY > 372) {
+                player.stayPut();
+            } else if (player.moveToY < 0) {
+                player.score += 1;
+                player.resetPlayer();
+            } else if (player.moveToX === rock.x && player.moveToY === rock.y) {
+                player.stayPut();
             }
-            if (enemy.y - player2.y === 20 && Math.abs(enemy.x - player2.x) < 69) {
-                player2.resetPlayer();
-                player2.score -= 1;
-            }
+            allEnemies.forEach(function(enemy) {
+                if (enemy.y - player.moveToY === 20 && Math.abs(enemy.x - player.moveToX) < 69) {
+                    player.score -= 1;
+                    player.resetPlayer();
+                }
+            });
         });
     }
+
 
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
@@ -122,6 +135,7 @@ var Engine = (function(global) {
         });
         player1.update();
         player2.update();
+        blueGem.update();
         rock.update();
     }
 
@@ -188,9 +202,11 @@ var Engine = (function(global) {
             enemy.render();
         });
 
+        rock.render();
+        blueGem.render();
         player1.render();
         player2.render();
-        rock.render();
+
     }
 
     function renderScore() {
@@ -237,7 +253,10 @@ var Engine = (function(global) {
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
         'images/char-princess-girl.png',
-        'images/Rock.png'
+        'images/Rock.png',
+        'images/GemBlue.png',
+        'images/GemGreen.png',
+        'images/GemOrange.png'
     ]);
 
     Resources.onReady(init);
