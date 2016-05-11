@@ -98,6 +98,8 @@ var Engine = (function(global) {
 
     var playerArray = [player1, player2];
 
+    var gemArray = [blueGem, orangeGem, greenGem];
+
     function checkCollisions() {
         playerArray.forEach(function(player) {
             if (player.moveToX < 0) {
@@ -112,6 +114,12 @@ var Engine = (function(global) {
             } else if (player.moveToX === rock.x && player.moveToY === rock.y) {
                 player.stayPut();
             }
+            gemArray.forEach(function(gem) {
+                if (player.moveToX === gem.x && player.moveToY === gem.y) {
+                    player.score += gem.value;
+                    gem.moveItemOffScreen();
+                }
+            })
             allEnemies.forEach(function(enemy) {
                 if (enemy.y - player.moveToY === 20 && Math.abs(enemy.x - player.moveToX) < 69) {
                     player.score -= 1;
@@ -133,9 +141,12 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player1.update();
-        player2.update();
-        blueGem.update();
+        playerArray.forEach(function(player) {
+            player.update();
+        });
+        gemArray.forEach(function(gem) {
+            gem.update();
+        });
         rock.update();
     }
 
@@ -178,11 +189,11 @@ var Engine = (function(global) {
             }
         }
 
-        var winningScore = 10;
+        var winningScore = 20;
 
-        if (player1.score === winningScore) {
+        if (player1.score >= winningScore) {
             gameOver(1);
-        } else if (player2.score === winningScore) {
+        } else if (player2.score >= winningScore) {
             gameOver(2);
         } else {
             renderEntities();
@@ -203,7 +214,9 @@ var Engine = (function(global) {
         });
 
         rock.render();
-        blueGem.render();
+        gemArray.forEach(function(gem) {
+            gem.render();
+        });
         player1.render();
         player2.render();
 

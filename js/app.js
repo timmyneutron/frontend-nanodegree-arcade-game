@@ -146,13 +146,12 @@ Item.prototype.render = function() {
 };
 
 Item.prototype.update = function() {
-    if (this.timer > 300) {
+    if (this.timer > 60 * this.switchTime) {
         if (this.x === -100) {
             this.randomItemPosition();
         } else {
             this.moveItemOffScreen();
         }
-        this.timer = 0;
     } else {
         this.timer += 1;
     }
@@ -161,20 +160,32 @@ Item.prototype.update = function() {
 Item.prototype.moveItemOffScreen = function() {
     this.x = -100;
     this.y = -100;
+    this.timer = 0;
 }
 
 Item.prototype.randomItemPosition = function() {
     this.x = 101 * (Math.floor(Math.random() * 5));
     this.y = 40 + 83 * (Math.floor(Math.random() * 3));
+    this.timer = 0;
 };
 
-var Gem = function() {
-    Item.call(this, 'images/GemBlue.png');
+var Gem = function(sprite) {
+    Item.call(this, sprite);
 }
 Gem.prototype = Object.create(Item.prototype);
 Gem.prototype.constructor = Gem;
 
-var blueGem = new Gem();
+var blueGem = new Gem('images/GemBlue.png');
+blueGem.value = 2;
+blueGem.switchTime = 3;
+
+var orangeGem = new Gem('images/GemOrange.png');
+orangeGem.value = 3;
+orangeGem.switchTime = 7;
+
+var greenGem = new Gem('images/GemGreen.png');
+greenGem.value = 5;
+greenGem.switchTime = 11;
 
 var Rock = function() {
     Item.call(this, 'images/Rock.png');
@@ -183,6 +194,7 @@ Rock.prototype = Object.create(Item.prototype);
 Rock.prototype.constructor = Rock;
 
 var rock = new Rock();
+rock.switchTime = 5;
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
