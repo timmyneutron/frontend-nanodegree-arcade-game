@@ -32,3 +32,5 @@ The board is covered with bugs! Ew! Try to get across the road to the water with
  ##### Restarting the game
  
  To restart the game, refresh the web browser. Have fun!
+ 
+ ---
