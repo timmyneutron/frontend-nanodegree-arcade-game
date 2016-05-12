@@ -21,12 +21,14 @@ The board is covered with bugs! Ew! Try to get across the road to the water with
 
 ##### Scoring
 
+Certain actions are worth points:
  - Making it to the water = +1 point
  - Hitting a bug = -1 point
  - Collecting a blue gem = +2 points
  - Collecting an orange gem = +3 points
  - Collecting a green gem = +5 points
- - The first player to score 20 points wins!
+ 
+The first player to score 20 points wins!
 
 ---
  ### Restarting the game
