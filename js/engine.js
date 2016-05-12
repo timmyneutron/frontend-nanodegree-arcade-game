@@ -107,12 +107,18 @@ var Engine = (function(global) {
 
 
     function toggleItemPositions() {
+        // moves rocks and gems on/off the screen
         itemArray.forEach(function(item) {
             item.togglePosition();
         });
     }
 
     function checkCollisions() {
+        // check to see if players are colliding with bugs, the water, the
+        // rock, the gems, or if they're moving off canvas. Also checks to see
+        // if rocks/gems moving on screen are going to land on top of anything,
+        // and if so, stops them from moving
+
         playerArray.forEach(function(player) {
             if (player.moveToX < 0) {
                 player.stayPut();
@@ -169,6 +175,19 @@ var Engine = (function(global) {
         });
     }
 
+    function gameOver(player1Score, player2Score) {
+        // sets the winning score as 20 and checks for a winner
+        var winningScore = 20;
+
+        if (player1.score >= winningScore) {
+            return 1;
+        } else if (player2.score >= winningScore) {
+            return 2;
+        } else {
+            return false;
+        }
+    }
+
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
@@ -208,15 +227,16 @@ var Engine = (function(global) {
             }
         }
 
-        var winningScore = 20;
+        // if there's a winner, then render the game over screen, otherwise 
+        // render the game
 
-        if (player1.score >= winningScore) {
-            gameOver(1);
-        } else if (player2.score >= winningScore) {
-            gameOver(2);
+        var winner = gameOver(player1.score, player2.score);
+
+        if (winner) {
+            renderGameOver(winner);
         } else {
-            renderEntities();
             renderScore();
+            renderEntities();
         }
     }
 
@@ -231,6 +251,8 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
+        // this sorts the items by their y-coordinate in ascending order
+        // so perspective isn't messed up when they're rendered
         itemArray.sort(function(item1, item2) {
             return item1.y - item2.y;
         });
@@ -243,6 +265,8 @@ var Engine = (function(global) {
     }
 
     function renderScore() {
+        // renders the players' scores
+
         var scoreString1 = "Player 1: " + player1.score.toString();
         var scoreString2 = "Player 2: " + player2.score.toString();
         ctx.font = '30pt Impact';
@@ -257,7 +281,8 @@ var Engine = (function(global) {
         ctx.strokeText(scoreString2, canvas.width - 30, 110);
     }
 
-    function gameOver(winner) {
+    function renderGameOver(winner) {
+        // renders the game over message
         ctx.font = '50pt Impact';
         ctx.textAlign = 'center';
         var gameOverText = 'Player ' + winner + ' wins!';
