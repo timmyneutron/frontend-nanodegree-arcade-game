@@ -60,7 +60,6 @@ Enemy.prototype.render = function() {
 
 var Player = function() {
     this.resetPlayer();
-    // this.sprite = 'images/char-princess-girl.png';
     this.score = 0;
 };
 
@@ -146,6 +145,11 @@ Item.prototype.render = function() {
 };
 
 Item.prototype.update = function() {
+    this.x = this.moveToX;
+    this.y = this.moveToY;
+}
+
+Item.prototype.togglePosition = function() {
     if (this.timer > 60 * this.switchTime) {
         if (this.x === -100) {
             this.randomItemPosition();
@@ -158,14 +162,14 @@ Item.prototype.update = function() {
 }
 
 Item.prototype.moveItemOffScreen = function() {
-    this.x = -100;
-    this.y = -100;
+    this.moveToX = -100;
+    this.moveToY = -100;
     this.timer = 0;
 }
 
 Item.prototype.randomItemPosition = function() {
-    this.x = 101 * (Math.floor(Math.random() * 5));
-    this.y = 40 + 83 * (Math.floor(Math.random() * 3));
+    this.moveToX = 101 * (Math.floor(Math.random() * 5));
+    this.moveToY = 40 + 83 * (Math.floor(Math.random() * 3));
     this.timer = 0;
 };
 

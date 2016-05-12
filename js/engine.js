@@ -92,6 +92,7 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        toggleItemPositions();
         checkCollisions();
         updateEntities(dt);
     }
@@ -99,6 +100,17 @@ var Engine = (function(global) {
     var playerArray = [player1, player2];
 
     var gemArray = [blueGem, orangeGem, greenGem];
+
+    var itemArray = [blueGem, orangeGem, greenGem, rock];
+
+    var playersAndItems = [player1, player2, blueGem, orangeGem, greenGem, rock];
+
+
+    function toggleItemPositions() {
+        itemArray.forEach(function(item) {
+            item.togglePosition();
+        });
+    }
 
     function checkCollisions() {
         playerArray.forEach(function(player) {
@@ -126,6 +138,14 @@ var Engine = (function(global) {
                     player.resetPlayer();
                 }
             });
+            itemArray.forEach(function(thing1) {
+                playersAndItems.forEach(function(thing2) {
+                    if (thing1.x === -100 && thing1.moveToX === thing2.x && thing1.moveToY === thing2.y) {
+                        thing1.moveToX = -100;
+                        thing1.moveToY = -100;
+                    }
+                });
+            });
         });
     }
 
@@ -144,10 +164,9 @@ var Engine = (function(global) {
         playerArray.forEach(function(player) {
             player.update();
         });
-        gemArray.forEach(function(gem) {
-            gem.update();
+        itemArray.forEach(function(item) {
+            item.update();
         });
-        rock.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -212,10 +231,11 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
-        rock.render();
-        gemArray.forEach(function(gem) {
-            gem.render();
+        itemArray.sort(function(item1, item2) {
+            return item1.y - item2.y;
+        });
+        itemArray.forEach(function(item) {
+            item.render();
         });
         player1.render();
         player2.render();
