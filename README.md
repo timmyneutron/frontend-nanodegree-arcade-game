@@ -15,8 +15,8 @@ Relevant Classes:
 - [HTML5 Canvas](https://www.udacity.com/course/html5-canvas--ud292)
 
 ## Getting Started
- 1. Clone/download the repository
- 2. Open ```index.html``` in a web browser
+1. Clone/download the repository
+2. Open ```index.html``` in a web browser
 
 ## Gameplay
 ### Characters
