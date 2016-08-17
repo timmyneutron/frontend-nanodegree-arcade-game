@@ -15,6 +15,8 @@ Relevant Classes:
 - [HTML5 Canvas](https://www.udacity.com/course/html5-canvas--ud292)
 
 ## Getting Started
+To get started:
+
 1. Clone/download the repository
 2. Open ```index.html``` in a web browser
 
