@@ -41,6 +41,6 @@ Certain actions are worth points:
  
 The first player to score 20 points wins!
 
- ### Restarting the game
+### Restarting the game
  
- To restart the game, refresh the web browser. Have fun!
+To restart the game, refresh the web browser. Have fun!
