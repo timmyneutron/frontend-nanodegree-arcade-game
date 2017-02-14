@@ -5,6 +5,8 @@
 
 This is a project for Udacity's Front-End Web Developer Nanodegree. It's a clone of the classic arcade game "Frogger."
 
+![Screenshot](https://raw.githubusercontent.com/timmyneutron/frontend-nanodegree-arcade-game/master/images/screenshot.jpeg)
+
 ## Concepts and Classes
 Concepts explored in this project:
 - Object-Oriented Programming
